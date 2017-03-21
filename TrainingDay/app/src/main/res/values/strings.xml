@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">TrainingDay</string>
+    <string name="geo_tag_dis_warning">Não foi possível obter as coordenadas da localização da foto. Por favor ative a opção de localização nas opções da câmara, aguarde a deteção da localização e tente novamente.</string>
+    <string name="promptCheckMate">Escolha as peças...</string>
+
+    <string-array name="pecas">
+        <item>Peão</item>
+        <item>Torre</item>
+        <item>Bispo</item>
+        <item>Rainha</item>
+        <item>Rei</item>
+    </string-array>
+    <string name="title_activity_swiper">SwiperActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_drawer">DrawerActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="chooser_title">Escolha ou tire uma foto</string>
+    <string name="menu_refresh">Atualizar</string>
+</resources>
