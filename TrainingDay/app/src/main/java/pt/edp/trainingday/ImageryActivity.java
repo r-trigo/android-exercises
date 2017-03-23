@@ -1,8 +1,10 @@
 package pt.edp.trainingday;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,11 +17,16 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -30,10 +37,9 @@ public class ImageryActivity extends AppCompatActivity {
     private TextView tv_lat_foto1, tv_lng_foto1;
     private Button bu_enviar_fotos;
     private boolean isFoto1;
-    private String mCurrentPhotoPath, data_tirada, latitude, longitude;
     private static final int ACTION_TAKE_PHOTO = 1;
     private static final int ACTION_PICK_PHOTO = 2;
-    private int orientation;
+    private String userChoosenTask, mCurrentPhotoPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +54,7 @@ public class ImageryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 isFoto1 = true;
-                chooseSource();
+                selectImage();
             }
         });
 
@@ -57,7 +63,7 @@ public class ImageryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 isFoto1 = false;
-                chooseSource();
+                selectImage();
             }
         });
     }
@@ -65,135 +71,119 @@ public class ImageryActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (resultCode == RESULT_OK) {
-
-            if (requestCode == ACTION_PICK_PHOTO) {
-                Uri myUri = data.getData();
-                mCurrentPhotoPath = getRealPathFromURI(myUri);
-            }
-
-            if (mCurrentPhotoPath != null) {
-
-                if (isFoto1) {
-                    setPic(ib_foto1);
-                } else {
-                    setPic(ib_foto2);
-                }
-
-                galleryAddPic();
-            }
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == ACTION_PICK_PHOTO)
+                onSelectFromGalleryResult(data);
+            else if (requestCode == ACTION_TAKE_PHOTO)
+                onCaptureImageResult();
         }
     }
 
-    private Bitmap rotateIfNeeded(BitmapFactory.Options bmOptions) {
-
-        ExifInterface ei = null;
-        try {
-            ei = new ExifInterface(mCurrentPhotoPath);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        getPhotoAttributes(ei);
-
-        Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
-
-        switch(orientation) {
-
-            case ExifInterface.ORIENTATION_ROTATE_90:
-                return rotateImage(bitmap, 90);
-
-            case ExifInterface.ORIENTATION_ROTATE_180:
-                return rotateImage(bitmap, 180);
-
-            case ExifInterface.ORIENTATION_ROTATE_270:
-                return rotateImage(bitmap, 270);
-
-            case ExifInterface.ORIENTATION_NORMAL:
-
-            default:
-                break;
-        }
-
-        return bitmap;
-    }
-
-    private void getPhotoAttributes(ExifInterface ei) {
-
-        orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
-        latitude = ei.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
-        longitude = ei.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
-        data_tirada = ei.getAttribute(ExifInterface.TAG_DATETIME);
-
-        Helper myHelper = new Helper();
-        if (latitude != null) {
-            latitude = String.valueOf(myHelper.EXIFCoordinatesConverter(latitude));
-        } else {
-            latitude = "0.0";
-        }
-        if (longitude != null) {
-            longitude = String.valueOf(-myHelper.EXIFCoordinatesConverter(longitude));
-        } else {
-            longitude = "0.0";
-        }
-    }
-
-    public static Bitmap rotateImage(Bitmap source, float angle) {
-        Matrix matrix = new Matrix();
-        matrix.postRotate(angle);
-        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
-    }
-
-    private void galleryAddPic() {
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        File f = new File(mCurrentPhotoPath);
-        Uri contentUri = Uri.fromFile(f);
-        mediaScanIntent.setData(contentUri);
-        this.sendBroadcast(mediaScanIntent);
-    }
-
-    private void chooseSource() {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        CharSequence[] items = new CharSequence[]{"Câmara", "Galeria"};
-        builder.setTitle("Escolha ou tire uma foto").setItems(items, new DialogInterface.OnClickListener() {
+    private void selectImage() {
+        final CharSequence[] items = {"Tirar foto", "Escolher da galeria", "Cancelar"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(ImageryActivity.this);
+        builder.setTitle("Escolher imagem");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (which == 0) {
-                    dispatchTakePictureIntent();
-                } else {
-                    pickPhotoIntent();
+            public void onClick(DialogInterface dialog, int item) {
+                boolean result = Utility.checkPermission(ImageryActivity.this);
+                if (items[item].equals("Tirar foto")) {
+                    userChoosenTask = "Tirar foto";
+                    if (result)
+                        cameraIntent();
+                } else if (items[item].equals("Escolher da galeria")) {
+                    userChoosenTask = "Escolher da galeria";
+                    if (result)
+                        galleryIntent();
+                } else if (items[item].equals("Cancelar")) {
+                    dialog.dismiss();
                 }
             }
         });
-
-        builder.create().show();
+        builder.show();
     }
 
-    private void pickPhotoIntent() {
-        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(galleryIntent, ACTION_PICK_PHOTO);
-    }
-
-    private void dispatchTakePictureIntent() {
-
+    private void cameraIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
+        File photoFile = null;
+        try {
+            photoFile = createImageFile();
+        } catch (IOException ex) {
+            // Error occurred while creating the File
+        }
+        // Continue only if the File was successfully created
+        if (photoFile != null) {
+            mCurrentPhotoPath = photoFile.getAbsolutePath();
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+            startActivityForResult(takePictureIntent, ACTION_TAKE_PHOTO);
+        }
+    }
+
+    private void galleryIntent() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);//
+        startActivityForResult(Intent.createChooser(intent, "Select File"), ACTION_PICK_PHOTO);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case Utility.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (userChoosenTask.equals("Take Photo"))
+                        cameraIntent();
+                    else if (userChoosenTask.equals("Choose from Library"))
+                        galleryIntent();
+                } else {
+                    //code for deny
+                }
+                break;
+        }
+    }
+
+    private void onSelectFromGalleryResult(Intent data) {
+        Bitmap bm = null;
+        if (data != null) {
             try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-                // Error occurred while creating the File
-            }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                mCurrentPhotoPath = photoFile.getAbsolutePath();
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
-                startActivityForResult(takePictureIntent, ACTION_TAKE_PHOTO);
+                bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
+
+        bm = getResizedBitmap(bm, ib_foto1.getWidth(), ib_foto2.getHeight());
+
+        if (isFoto1) {
+            ib_foto1.setImageBitmap(bm);
+            ib_foto1.setLayoutParams(new RelativeLayout.LayoutParams(bm.getWidth(), bm.getHeight()));
+        } else {
+            ib_foto2.setImageBitmap(bm);
+            ib_foto1.setLayoutParams(new RelativeLayout.LayoutParams(bm.getWidth(), bm.getHeight()));
+        }
+    }
+
+    private void onCaptureImageResult() {
+        if (isFoto1) setPic(ib_foto1);
+        else setPic(ib_foto2);
+
+        galleryAddPic();
+    }
+
+    public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        // CREATE A MATRIX FOR THE MANIPULATION
+        Matrix matrix = new Matrix();
+        // RESIZE THE BIT MAP
+        matrix.postScale(scaleWidth, scaleHeight);
+
+        // "RECREATE" THE NEW BITMAP
+        Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height, matrix, false);
+        bm.recycle();
+        return resizedBitmap;
     }
 
     private File createImageFile() throws IOException {
@@ -202,66 +192,45 @@ public class ImageryActivity extends AppCompatActivity {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "IMG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File imageFile = File.createTempFile(
+        File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
         );
 
         // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = imageFile.getAbsolutePath();
-        return imageFile;
+        mCurrentPhotoPath = image.getAbsolutePath();
+        return image;
     }
 
-    private String getRealPathFromURI(Uri contentURI) {
-        String result;
-        Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
-        if (cursor == null) {
-            result = contentURI.getPath();
-        } else {
-            cursor.moveToFirst();
-            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-            result = cursor.getString(idx);
-            cursor.close();
-        }
-        return result;
+    private void galleryAddPic() {
+        Intent mediaScanIntent = new Intent("android.intent.action.MEDIA_SCANNER_SCAN_FILE");
+        File f = new File(mCurrentPhotoPath);
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        this.sendBroadcast(mediaScanIntent);
     }
 
-    private void setPic(ImageButton imageButton) {
+    private void setPic(ImageButton ib) {
 
-		/* There isn't enough memory to open up more than a couple camera photos */
-        /* So pre-scale the target bitmap into which the file is decoded */
+        /* Get the size of the ImageButton */
+        int targetW = ib.getWidth();
+        int targetH = ib.getHeight();
 
-		/* Get the size of the ImageView */
-        int targetW = imageButton.getWidth();
-        int targetH = imageButton.getHeight();
-
-		/* Get the size of the image */
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
-        int photoW = bmOptions.outWidth;
-        int photoH = bmOptions.outHeight;
-
-		/* Figure out which way needs to be reduced less */
-        int scaleFactor = 1;
-        if ((targetW > 0) || (targetH > 0)) {
-            scaleFactor = Math.min(photoW / targetW, photoH / targetH);
+        /* Decode the JPEG file into a Bitmap */
+        Bitmap bitmap = null;
+        FileOutputStream fOut = null;
+        try {
+            fOut = new FileOutputStream(mCurrentPhotoPath);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
 
-		/* Set bitmap options to scale the image decode target */
-        bmOptions.inJustDecodeBounds = false;
-        bmOptions.inSampleSize = scaleFactor;
-        bmOptions.inPurgeable = true;
-
-		/* Decode the JPEG file into a Bitmap */
-
-        //rotate if sideways
-        Bitmap bitmap = rotateIfNeeded(bmOptions);
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, targetW, targetH, true);
 
 		/* Associate the Bitmap to the ImageView */
-        imageButton.setImageBitmap(bitmap);
-        imageButton.setVisibility(View.VISIBLE);
+        ib.setImageBitmap(resizedBitmap);
     }
 
 }

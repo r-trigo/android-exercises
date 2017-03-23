@@ -14,20 +14,11 @@
     <uses-feature android:name="android.hardware.location.gps" />
 
     <application
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        android:theme="@style/AppTheme"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true">
-        <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="pt.edp.android.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider>
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -44,8 +35,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".DrawerActivity"
-            android:label="@string/title_activity_drawer"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_drawer"/>
         <activity android:name=".GridActivity" />
         <activity android:name=".ImageryActivity" />
         <activity android:name=".SwipeToRefreshActivity"></activity>
