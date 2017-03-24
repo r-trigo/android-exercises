@@ -213,21 +213,35 @@ public class ImageryActivity extends AppCompatActivity {
 
     private void setPic(ImageButton ib) {
 
-        /* Get the size of the ImageButton */
+    /* There isn't enough memory to open up more than a couple camera photos */
+		/* So pre-scale the target bitmap into which the file is decoded */
+
+		/* Get the size of the ImageView */
         int targetW = ib.getWidth();
         int targetH = ib.getHeight();
 
-        /* Decode the JPEG file into a Bitmap */
-        Bitmap bitmap = null;
-        FileOutputStream fOut = null;
-        try {
-            fOut = new FileOutputStream(mCurrentPhotoPath);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
+		/* Get the size of the image */
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
 
-        Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, targetW, targetH, true);
+		/* Figure out which way needs to be reduced less */
+        int scaleFactor = 1;
+        if ((targetW > 0) || (targetH > 0)) {
+            scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+        }
+
+		/* Set bitmap options to scale the image decode target */
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+
+		/* Decode the JPEG file into a Bitmap */
+        Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
+
+        Bitmap resizedBitmap = getResizedBitmap(bitmap, targetW, targetH);
 
 		/* Associate the Bitmap to the ImageView */
         ib.setImageBitmap(resizedBitmap);
