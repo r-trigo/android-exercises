@@ -39,7 +39,8 @@ public class ImageryActivity extends AppCompatActivity {
     private boolean isFoto1;
     private static final int ACTION_TAKE_PHOTO = 1;
     private static final int ACTION_PICK_PHOTO = 2;
-    private String userChoosenTask, mCurrentPhotoPath;
+    private String mCurrentPhotoPath;
+    private Helper mHelper = new Helper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,9 @@ public class ImageryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 isFoto1 = true;
-                selectImage();
+                if (mHelper.checkStoragePermission(ImageryActivity.this))
+                    selectImage();
+
             }
         });
 
@@ -63,9 +66,33 @@ public class ImageryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 isFoto1 = false;
-                selectImage();
+                if (mHelper.checkStoragePermission(ImageryActivity.this))
+                    selectImage();
             }
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case VarSessao.MY_PERMISSIONS_REQUEST_READ_AND_WRITE_EXTERNAL_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    selectImage();
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 
     @Override
@@ -86,15 +113,10 @@ public class ImageryActivity extends AppCompatActivity {
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
-                boolean result = Utility.checkPermission(ImageryActivity.this);
                 if (items[item].equals("Tirar foto")) {
-                    userChoosenTask = "Tirar foto";
-                    if (result)
-                        cameraIntent();
+                    cameraIntent();
                 } else if (items[item].equals("Escolher da galeria")) {
-                    userChoosenTask = "Escolher da galeria";
-                    if (result)
-                        galleryIntent();
+                    galleryIntent();
                 } else if (items[item].equals("Cancelar")) {
                     dialog.dismiss();
                 }
@@ -126,21 +148,6 @@ public class ImageryActivity extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(intent, "Select File"), ACTION_PICK_PHOTO);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case Utility.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (userChoosenTask.equals("Take Photo"))
-                        cameraIntent();
-                    else if (userChoosenTask.equals("Choose from Library"))
-                        galleryIntent();
-                } else {
-                    //code for deny
-                }
-                break;
-        }
-    }
 
     private void onSelectFromGalleryResult(Intent data) {
         Bitmap bm = null;
@@ -214,7 +221,7 @@ public class ImageryActivity extends AppCompatActivity {
     private void setPic(ImageButton ib) {
 
     /* There isn't enough memory to open up more than a couple camera photos */
-		/* So pre-scale the target bitmap into which the file is decoded */
+        /* So pre-scale the target bitmap into which the file is decoded */
 
 		/* Get the size of the ImageView */
         int targetW = ib.getWidth();
@@ -230,7 +237,7 @@ public class ImageryActivity extends AppCompatActivity {
 		/* Figure out which way needs to be reduced less */
         int scaleFactor = 1;
         if ((targetW > 0) || (targetH > 0)) {
-            scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+            scaleFactor = Math.min(photoW / targetW, photoH / targetH);
         }
 
 		/* Set bitmap options to scale the image decode target */
