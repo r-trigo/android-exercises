@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "C:\\Creations\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_template_custom_big.xml",
+        "source": "C:\\Users\\Seksu\\.android\\build-cache\\a8368efc3b95b8f24d2727c752c87ac0a0bcc82b\\output\\res\\layout-v21\\notification_template_custom_big.xml"
+    },
+    {
+        "merged": "C:\\Creations\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_template_icon_group.xml",
+        "source": "C:\\Users\\Seksu\\.android\\build-cache\\a8368efc3b95b8f24d2727c752c87ac0a0bcc82b\\output\\res\\layout-v21\\notification_template_icon_group.xml"
+    },
+    {
+        "merged": "C:\\Creations\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_action_tombstone.xml",
+        "source": "C:\\Users\\Seksu\\.android\\build-cache\\a8368efc3b95b8f24d2727c752c87ac0a0bcc82b\\output\\res\\layout-v21\\notification_action_tombstone.xml"
+    },
+    {
+        "merged": "C:\\Creations\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_action.xml",
+        "source": "C:\\Users\\Seksu\\.android\\build-cache\\a8368efc3b95b8f24d2727c752c87ac0a0bcc82b\\output\\res\\layout-v21\\notification_action.xml"
+    }
+]

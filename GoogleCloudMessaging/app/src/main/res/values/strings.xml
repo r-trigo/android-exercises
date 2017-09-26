@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Google Cloud Messaging</string>
+
+    <string name="get_id">Get RegID</string>
+</resources>

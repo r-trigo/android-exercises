@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="pt.ipg.seminarioandroidbt.MainActivity"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/button_conn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Estabelecer ligação"
+        android:onClick="button_connOnClick" />
+
+    <Button
+        android:id="@+id/button_led1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="LED 1"
+        android:onClick="button_led1OnClick" />
+
+    <Button
+        android:id="@+id/button_led2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="LED 2"
+        android:onClick="button_led2OnClick" />
+
+</LinearLayout>

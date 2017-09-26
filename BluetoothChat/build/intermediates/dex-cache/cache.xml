@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="C:\Users\Seksu\.android\build-cache\2c1bde92369d4c11a3e6ea8903e938f7105e761b\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="bc7e99e8d0fc279a05aa91378530f467ad62d443">
+        <dex dex="C:\Creations\BluetoothChat\Application\build\intermediates\pre-dexed\debug\classes_3a537bbd25059701170300c466973d0734edcf6e.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Seksu\.android\build-cache\a8368efc3b95b8f24d2727c752c87ac0a0bcc82b\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="f7ac4b327fdb9e2ee386f5adc46164927658de4b">
+        <dex dex="C:\Creations\BluetoothChat\Application\build\intermediates\pre-dexed\debug\classes_48407a7c27c4f301f28af3ddf02b3443a2efc8ae.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Seksu\.android\build-cache\e2295f2f9490b30f4f6f18edfb180b8ae1a71d8c\output\jars\libs\internal_impl-25.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="f83b00041ecfba705603fec40363416c7de69719">
+        <dex dex="C:\Creations\BluetoothChat\Application\build\intermediates\pre-dexed\debug\internal_impl-25.0.1_cd29f91d2bc96a76a99aa5f858e9582d7148aac1.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Seksu\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\25.0.1\support-annotations-25.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a09194311f8f89c3e6db09d79f50897a889d615e">
+        <dex dex="C:\Creations\BluetoothChat\Application\build\intermediates\pre-dexed\debug\support-annotations-25.0.1_9648802e73834bbcd690ab3d74b8ba1259060005.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Seksu\.android\build-cache\1eeeda29df8587e76406455f0339447db5088973\output\jars\libs\internal_impl-25.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3af8cc51ef7088e56f132780da8c0bd858b6a6ad">
+        <dex dex="C:\Creations\BluetoothChat\Application\build\intermediates\pre-dexed\debug\internal_impl-25.0.1_ec1a1f568e9fc0bcbbbb98e2b4bb2bed2db1af7f.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Seksu\.android\build-cache\e2295f2f9490b30f4f6f18edfb180b8ae1a71d8c\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="6a1479afe9f1b3645e1cd9a87318976893472818">
+        <dex dex="C:\Creations\BluetoothChat\Application\build\intermediates\pre-dexed\debug\classes_2966a0d1f1baca5ede1ff2053f0e1e5c851da9e0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Seksu\.android\build-cache\e4d01f21a7fd9ef62b128e9453ed8b26442d33f1\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="00d4c8eebf2b681073c72a26bd0849549e51c7cb">
+        <dex dex="C:\Creations\BluetoothChat\Application\build\intermediates\pre-dexed\debug\classes_ef14de9ccc7c2abfe2c8bf25c9e6e27218ebce39.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Seksu\.android\build-cache\d6c3c765ac2b77f7d127f132b1474acd9db733cf\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="C:\Creations\BluetoothChat\Application\build\intermediates\pre-dexed\debug\classes_ccc1dc1141aad64a993688097568a569338dcc22.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Seksu\.android\build-cache\1eeeda29df8587e76406455f0339447db5088973\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="51eba4a4dd73044f90a9d58dd7ca34adbebfcf4e">
+        <dex dex="C:\Creations\BluetoothChat\Application\build\intermediates\pre-dexed\debug\classes_0fc4e0a5ef0bf9bcad18d5389bf750703a0db6ea.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Seksu\.android\build-cache\e4d01f21a7fd9ef62b128e9453ed8b26442d33f1\output\jars\libs\internal_impl-25.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c5b7145fb34779b6639147b8f2f8dd77c0db771b">
+        <dex dex="C:\Creations\BluetoothChat\Application\build\intermediates\pre-dexed\debug\internal_impl-25.0.1_cadb0e30b33f8addb4b34be563aec12572c325a3.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Seksu\.android\build-cache\bfc28794b3da8bbcbe33198fdd5ecde64d4318ca\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="4700f436ede140fb804204f806c9cc3f08e386f4">
+        <dex dex="C:\Creations\BluetoothChat\Application\build\intermediates\pre-dexed\debug\classes_0b7b546a7f8085b9579f5cf9dc1199301485726e.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Seksu\.android\build-cache\c516537fd9864bb00162c6d971759bf569744c44\output\jars\libs\internal_impl-25.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c0bd6ffb002a85b5e7cad29f8558d1cc59539679">
+        <dex dex="C:\Creations\BluetoothChat\Application\build\intermediates\pre-dexed\debug\internal_impl-25.0.1_c4bedeac3a9f7999f6161899f3a38bb39c745b1e.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Seksu\.android\build-cache\ee7f80e07e2fd8d032d26a5f07c90938e822e78c\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="772bed2d992b67b9d0327f766cc95cd63031dcd3">
+        <dex dex="C:\Creations\BluetoothChat\Application\build\intermediates\pre-dexed\debug\classes_fae0f5e815041cd064111d36ed08a2e7a86ebd3a.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Seksu\.android\build-cache\2c1bde92369d4c11a3e6ea8903e938f7105e761b\output\jars\libs\internal_impl-25.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="e5343c9d19cb19ff55f6b268c7f3fe8c9d224f6f">
+        <dex dex="C:\Creations\BluetoothChat\Application\build\intermediates\pre-dexed\debug\internal_impl-25.0.1_ef7535af58f9ed99339b0bad178109c8b6e01b2c.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Seksu\.android\build-cache\a1003947f254a9b67f1f22303437360a66fe2e85\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="1108575c7dc7b7f5b378b3290ac90de81a9b8830">
+        <dex dex="C:\Creations\BluetoothChat\Application\build\intermediates\pre-dexed\debug\classes_0bdc94503a254aea78ddb6d8d8f5241bed18b11e.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Seksu\.android\build-cache\c516537fd9864bb00162c6d971759bf569744c44\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="26c6eef571592c91f29e56fda0bac73321de0c92">
+        <dex dex="C:\Creations\BluetoothChat\Application\build\intermediates\pre-dexed\debug\classes_f487cb68cc05b1b5d5adc866884b7048e600f51a.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Seksu\.android\build-cache\ac5a412f4566cac77f47b1c21ebeaa3eb72fad6d\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="b24e1c688744078e1fa833ffadf696794761bbe5">
+        <dex dex="C:\Creations\BluetoothChat\Application\build\intermediates\pre-dexed\debug\classes_6006ad6a0017a0f1cc5ca3a545c098d2634b8b11.jar" />
+    </item>
+
+</items>

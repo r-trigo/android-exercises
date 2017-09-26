@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="pt.ipg.android.camapp2016">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAINACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!--
+        If the screen changes orientation, the activity GetBarCode is recreated and data of the TextViews
+        are lost. A possible way to handle the problem is tell the system that we meant to handle
+        screen changes for yourself by specifying android:configChanges="orientation|screenSize" in
+        the <activity> tag. This way the activity will not be recreated, but will receive a callback
+        instead which we can ignore in this case as it's not useful for us).
+        -->
+        <activity
+            android:name=".GetBarCode"
+            android:configChanges="orientation|screenSize"
+            android:label="GetBarCode"></activity>
+
+        <!--
+        Like in the GetBarCode, if the screen changes orientation, the activity TakePhoto is
+        recreated and data of ImageView is lost. In this activity the situation is solved by not
+        allowing the screen orientation change. The activity is forced to have the portrait
+        orientation all the time.
+        -->
+        <activity android:name=".TakePhoto"
+            android:label="TakePhoto"
+            android:screenOrientation="portrait">
+
+        </activity>
+    </application>
+
+</manifest>
